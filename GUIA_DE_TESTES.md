@@ -652,8 +652,7 @@ curl -s http://localhost:3001/v1/students/ID_ALUNO_JOAO/frequency \
     "bimestre": 1,
     "total_aulas": 5,
     "total_presencas": 1,
-    "total_faltas": 4,
-    "percentual_frequencia": "20.00",
+    "percentual": "20",
     "reprovado_por_falta": true
   }
 ]
@@ -661,8 +660,8 @@ curl -s http://localhost:3001/v1/students/ID_ALUNO_JOAO/frequency \
 
 **O que validar:**
 - ✅ `total_aulas` = número de lançamentos feitos
-- ✅ `total_presencas` + `total_faltas` = `total_aulas`
-- ✅ `percentual_frequencia` = `(total_presencas / total_aulas) * 100`
+- ✅ `total_presencas` ≤ `total_aulas`
+- ✅ `percentual` = `(total_presencas / total_aulas) * 100` (retornado como string)
 - ✅ `reprovado_por_falta` é `true` se percentual < 75%
 
 #### Filtrar por bimestre
@@ -715,8 +714,8 @@ curl -s -X POST http://localhost:3001/v1/students/ID_ALUNO_JOAO/frequency/overri
   "disciplina_id": "UUID_DA_DISCIPLINA",
   "admin_id": "uuid-do-admin",
   "justificativa": "Aluno apresentou atestado médico cobrindo todas as ausências do período",
-  "status_anterior": true,
-  "created_at": "2026-04-12T10:00:00.000Z"
+  "data_decisao": "2026-04-12T10:00:00.000Z",
+  "status_anterior": true
 }
 ```
 
@@ -731,7 +730,7 @@ O campo `reprovado_por_falta` agora deve ser `false`:
 [
   {
     ...
-    "percentual_frequencia": "20.00",
+    "percentual": "20",
     "reprovado_por_falta": false
   }
 ]
